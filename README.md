@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains a collection of real-life DevOps projects aimed at providing practical examples, tutorials, and resources for DevOps professionals, engineers, and enthusiasts. Each project is designed to demonstrate different aspects of DevOps practices, including automation, continuous integration/continuous deployment (CI/CD), infrastructure as code (IaC), containerization, monitoring, and more.
+This repository contains a collection of real-life DevOps projects 
 
 ## Project List
 
