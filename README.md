@@ -6,7 +6,7 @@ This repository contains a collection of real-life DevOps projects
 
 ## Project List
 
-1. **Dockerize_Lampstack_Webapp**
+1. **[Dockerize_Lampstack_Webapp](https://github.com/paulahakeem/Real_Life_Devops_Projects/tree/master/Dockerize_Lampstack_App)**
 
 
 ## How to Use
