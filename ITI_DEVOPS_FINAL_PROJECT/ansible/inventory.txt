@@ -1,0 +1,7 @@
+[kubernetes]
+kube-master ansible_host=192.168.1.10
+
+
+
+
+ansible-playbook -i inventory.ini deploy-jenkins.yaml --kubeconfig=/path/to/kubeconfig

@@ -1,0 +1,79 @@
+---
+- name: Deploy Jenkins to Kubernetes cluster
+  hosts: kubernetes
+  vars:
+    jenkins_namespace: jenkins
+    jenkins_volume_size: 10Gi
+    jenkins_image: jenkins/jenkins:lts
+    jenkins_port: 8080
+    jenkins_replicas: 1
+  tasks:
+    - name: Create Jenkins namespace
+      kubernetes:
+        state: present
+        kind: Namespace
+        name: "{{ jenkins_namespace }}"
+    
+    - name: Create Jenkins persistent volume claim
+      kubernetes:
+        state: present
+        kind: PersistentVolumeClaim
+        api_version: v1
+        namespace: "{{ jenkins_namespace }}"
+        name: jenkins-pvc
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "{{ jenkins_volume_size }}"
+    
+    - name: Deploy Jenkins
+      kubernetes:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: jenkins
+            namespace: "{{ jenkins_namespace }}"
+          spec:
+            replicas: "{{ jenkins_replicas }}"
+            selector:
+              matchLabels:
+                app: jenkins
+            template:
+              metadata:
+                labels:
+                  app: jenkins
+              spec:
+                containers:
+                - name: jenkins
+                  image: "{{ jenkins_image }}"
+                  ports:
+                  - containerPort: "{{ jenkins_port }}"
+                  volumeMounts:
+                  - mountPath: "/var/jenkins_home"
+                    name: jenkins-home
+                volumes:
+                - name: jenkins-home
+                  persistentVolumeClaim:
+                    claimName: jenkins-pvc
+    
+    - name: Expose Jenkins service
+      kubernetes:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: jenkins
+            namespace: "{{ jenkins_namespace }}"
+          spec:
+            type: LoadBalancer
+            ports:
+              - name: http
+                port: "{{ jenkins_port }}"
+                targetPort: "{{ jenkins_port }}"
+            selector:
+              app: jenkins

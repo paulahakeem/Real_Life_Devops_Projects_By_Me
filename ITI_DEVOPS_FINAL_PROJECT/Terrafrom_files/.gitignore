@@ -1,0 +1,4 @@
+.terraform*
+terraform.tfs*
+paula.pem
+secrets.tf
