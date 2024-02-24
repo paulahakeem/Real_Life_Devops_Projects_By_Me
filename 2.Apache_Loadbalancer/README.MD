@@ -5,4 +5,4 @@
 - When we want to access our website, we will be calling HAProxy, not the Apache servers. HAProxy will divert traffic to Apache servers.
 
 ### screenshot from project
-![Alt text](/home/paula/scfromproject.jpg?raw=true "screenshot")
+![My Image](screenshot.jpg)
